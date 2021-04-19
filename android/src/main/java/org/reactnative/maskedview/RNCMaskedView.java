@@ -39,9 +39,13 @@ public class RNCMaskedView extends ReactViewGroup {
 
     // draw the mask
     if (mBitmapMask != null) {
-      mPaint.setXfermode(mPorterDuffXferMode);
-      canvas.drawBitmap(mBitmapMask, 0, 0, mPaint);
-      mPaint.setXfermode(null);
+      try{
+        mPaint.setXfermode(mPorterDuffXferMode);
+        canvas.drawBitmap(mBitmapMask, 0, 0, mPaint);
+        mPaint.setXfermode(null);
+      } catch (Exception e){
+        e.printStackTrace();
+      }
     }
   }
 
@@ -50,9 +54,13 @@ public class RNCMaskedView extends ReactViewGroup {
     super.onDescendantInvalidated(child, target);
 
     if (!mBitmapMaskInvalidated) {
-      View maskView = getChildAt(0);
-      if (maskView.equals(child)) {
-        mBitmapMaskInvalidated = true;
+      try{
+        View maskView = getChildAt(0);
+        if (maskView.equals(child)) {
+          mBitmapMaskInvalidated = true;
+        }
+      } catch (Exception e){
+        e.printStackTrace();
       }
     }
   }
@@ -77,10 +85,15 @@ public class RNCMaskedView extends ReactViewGroup {
       this.mBitmapMask.recycle();
     }
 
-    View maskView = getChildAt(0);
-    maskView.setVisibility(View.VISIBLE);
-    this.mBitmapMask = getBitmapFromView(maskView);
-    maskView.setVisibility(View.INVISIBLE);
+    try{
+        View maskView = getChildAt(0);
+        maskView.setVisibility(View.VISIBLE);
+        this.mBitmapMask = getBitmapFromView(maskView);
+        maskView.setVisibility(View.INVISIBLE);
+    } catch (Exception e){
+        e.printStackTrace();
+    }
+    
   }
 
   public static Bitmap getBitmapFromView(final View view) {
